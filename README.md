@@ -18,3 +18,5 @@ This proposed command for running will delete the container on exit.
 # Origin
 
 Forked from work by Elvin Sindrilaru, esindril@cern.ch, CERN 2017, https://github.com/esindril/EosDocker
+
+See https://eos.web.cern.ch/ for more information and documentation on EOS
