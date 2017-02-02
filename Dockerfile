@@ -5,8 +5,7 @@
 
 FROM centos:7
 MAINTAINER Elvin Sindrilaru, esindril@cern.ch, CERN 2017
-
-RUN yum -y --nogpg update
+MAINTAINER David Jericho, davidj@diskpig.org
 
 # Add required repositories
 ADD *.repo /etc/yum.repos.d/
@@ -17,17 +16,17 @@ ADD xrd.cf.* /etc/
 
 # Instal XRootD
 ENV XRD_VERSION 4.5.0
-RUN yum -y --nogpg install \
+RUN yum -y --nogpg update && \
+    yum -y --nogpg install \
     xrootd-$XRD_VERSION \
     xrootd-client-$XRD_VERSION \
     xrootd-client-libs-$XRD_VERSION \
     xrootd-libs-$XRD_VERSION \
     xrootd-server-devel-$XRD_VERSION \
-    xrootd-server-libs-$XRD_VERSION
-
-# Install EOS
-RUN yum -y --nogpg install\
+    xrootd-server-libs-$XRD_VERSION && \
+    yum -y --nogpg install\
     eos-server eos-testkeytab quarkdb\
     initscripts less emasc && yum clean all
-ADD eos_setup.sh /
-ENTRYPOINT ["/bin/bash"]
+
+ADD entrypoint.sh /
+ENTRYPOINT ["/entrypoint.sh"]
