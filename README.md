@@ -11,6 +11,8 @@ CERN EOS Citrine demonstration container
 
 # Running
 
+This proposed command for running will delete the container on exit.
+
 ```docker run -ti --rm -h eostest.cern.ch eosdocker```
 
 # Origin
