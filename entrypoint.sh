@@ -54,4 +54,4 @@ eos -b vid enable sss
 eos -b vid enable unix
 eos -b fs boot \*
 eos -b config save -f default
-/bin/bash
+exec /bin/bash
