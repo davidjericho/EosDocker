@@ -1,10 +1,12 @@
-#! /bin/bash
+#!/bin/bash
 
 # Script used to register the filesystems in EOS and enable all the features
 # necessary for a default setup
 set -e
-EOSHOST=`hostname -f`
-EOSINSTANCENAME=`hostname -s`
+export EOSHOST=`hostname -f`
+export EOSINSTANCENAME=`hostname -s`
+
+echo "Starting as host ${EOSHOST} running instance ${EOSINSTANCENAME}..."
 
 echo "Configure QuarkDB backend ..."
 mkdir -p /var/quarkdb/node-0
@@ -12,9 +14,6 @@ chown -R daemon:daemon /var/quarkdb/node-0
 /usr/bin/xrootd -n quarkdb -c /etc/xrd.cf.quarkdb -l /var/log/eos/xrdlog.quarkdb -b -Rdaemon
 
 echo "Configure EOS instance ..."
-sed -i -e "s/DUMMY_HOST_TO_REPLACE/${EOSHOST}/" /etc/sysconfig/eos
-sed -i -e "s/DUMMY_INSTANCE_TO_REPLACE/${EOSINSTANCENAME}/" /etc/sysconfig/eos
-
 source /etc/sysconfig/eos
 export SYSTEMCTL_SKIP_REDIRECT=1
 mkdir -p /run/lock/subsys
@@ -23,12 +22,14 @@ chown daemon:root /var/eos/config/${EOSHOST}
 touch /var/eos/config/${EOSHOST}/default.eoscf
 chown daemon:daemon /var/eos/config/${EOSHOST}/default.eoscf
 
-# MGM and MQ in master mode
+echo "Mark container as EOS MD master..."
 touch /var/eos/eos.mq.master
 touch /var/eos/eos.mgm.rw
 
-# Start EOS daemons
+echo "Start EOS MQ..."
 /usr/bin/xrootd -n mq -c /etc/xrd.cf.mq -l /var/log/eos/xrdlog.mq -b -Rdaemon
+
+echo "Start EOS MGM..."
 /usr/bin/xrootd -n mgm -c /etc/xrd.cf.mgm -m -l /var/log/eos/xrdlog.mgm -b -Rdaemon
 
 # Register FSTs with the EOS MGM
@@ -48,10 +49,17 @@ do
     eos -b node set $HOSTNAME:$((2000+$i)) on
 done
 
+echo "Configuring EOS namespace..."
 eos -b space quota default off
 eos -b space set default on
 eos -b vid enable sss
 eos -b vid enable unix
 eos -b fs boot \*
 eos -b config save -f default
+
+echo '############################'
+echo '# Run "eos" to control EOS #'
+echo '# Logs in /var/log/eos     #'
+echo '############################'
+
 exec /bin/bash

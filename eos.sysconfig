@@ -40,25 +40,25 @@ XRD_ROLES="mq sync mgm fst1 fst2 fst3 fst4 fst5 fst6"
 # ------------------------------------------------------------------
 
 # The EOS instance name
-export EOS_INSTANCE_NAME=DUMMY_INSTANCE_TO_REPLACE
+export EOS_INSTANCE_NAME=${EOSINSTANCENAME}
 
 # The EOS configuration to load after daemon start
 export EOS_AUTOLOAD_CONFIG=default
 
 # The EOS broker URL 
-export EOS_BROKER_URL=root://DUMMY_HOST_TO_REPLACE:1097//eos/
+export EOS_BROKER_URL=root://${EOSHOST}:1097//eos/
 
 # The EOS host geo location tag used to sort hosts into geographical (rack) locations 
-export EOS_GEOTAG="DUMMY_HOST_TO_REPLACE"
+export EOS_GEOTAG="${EOSHOST}"
 
 # The fully qualified hostname of MGM master1
-export EOS_MGM_MASTER1=DUMMY_HOST_TO_REPLACE
+export EOS_MGM_MASTER1=${EOSHOST}
 
 # The fully qualified hostname of MGM master2
-export EOS_MGM_MASTER2=DUMMY_HOST_TO_REPLACE
+export EOS_MGM_MASTER2=${EOSHOST}
 
 # The alias which selects master 1 or 2
-export EOS_MGM_ALIAS=DUMMY_HOST_TO_REPLACE
+export EOS_MGM_ALIAS=${EOSHOST}
 
 # The mail notification in case of fail-over
 #export EOS_MAIL_CC="apeters@mail.cern.ch"
@@ -78,7 +78,7 @@ export EOS_MGM_ALIAS=DUMMY_HOST_TO_REPLACE
 export EOS_FUSE_MOUNTDIR=/eos/
 
 # The MGM host from where to do the inital mount
-export EOS_FUSE_MGM_ALIAS=eostest.cern.ch
+export EOS_FUSE_MGM_ALIAS=${EOSHOST}
 
 # Enable FUSE debugging mode (default off)
 #export EOS_FUSE_DEBUG=1
@@ -128,7 +128,7 @@ export EOS_HTTP_THREADPOOL_SIZE=16
 #export EOS_TEST_INSTANCE="dev"
 
 # MGM host redirector
-export EOS_TEST_REDIRECTOR=eostest.cern.ch
+export EOS_TEST_REDIRECTOR=${EOSHOST}
 
 # local test output directory
 export EOS_TEST_TESTSYS=/tmp/eos-instance-test/

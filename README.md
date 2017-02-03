@@ -3,7 +3,7 @@ CERN EOS Citrine demonstration container
 
 # Requirements
 
-* Hostname of the container must be set to _eostest.cern.ch_
+- Hostname must have two or more parts to the name. For example "foo.blah", or "this.domain.works". Default docker hostnames will not work.
 
 # Building
 
@@ -13,10 +13,10 @@ CERN EOS Citrine demonstration container
 
 This proposed command for running will delete the container on exit.
 
-```docker run -ti --rm -h eostest.cern.ch eosdocker```
+```docker run -ti --rm -h eos.mydomain eosdocker```
 
 # Origin
 
 Forked from work by Elvin Sindrilaru, esindril@cern.ch, CERN 2017, https://github.com/esindril/EosDocker
 
-See https://eos.web.cern.ch/ for more information and documentation on EOS
+See https://eos.web.cern.ch/ for more information and documentation on EOS.
